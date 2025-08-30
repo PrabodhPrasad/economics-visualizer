@@ -3,10 +3,15 @@ import requests
 import plotly.graph_objects as go
 from streamlit_plotly_events import plotly_events
 import plotly.io as pio
+from groq import Groq
+client = Groq(api_key="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")
 
 st.title("chart")
 if "plots" not in st.session_state:
     st.session_state.plots=[]
+
+if "history" not in st.session_state:
+    st.session_state.history = []
 
 #getgdp
 def getgdp(country, startyear=2013, endyear=2025):
@@ -71,7 +76,9 @@ if st.button("add") and startyear<endyear:
         st.session_state.plots.append({
             "x": years,
             "y": values,
-            "label": f"{variableinput} of {countryinput}"
+            "label": f"{variableinput} of {countryinput}",
+            "variable":variableinput,
+            "country":countryinput
         })
 
 pio.templates.default="plotly"
@@ -91,6 +98,32 @@ fig.update_layout(
 selectpoints=plotly_events(fig, click_event=True, hover_event=False)
 if selectpoints:
     clicked=selectpoints[0]
+    variable=trace["variable"]
+    country=trace["country"]
     clickedyear=clicked["x"]
     clickedvalue=clicked["y"]
-    st.markdown(f"Year **{clickedyear}**, Value **{clickedvalue:,.2f}**")
+    st.markdown(f"year: **{clickedyear}**, value: **{clickedvalue:,.2f}**, variable: **{variable}**, country: **{country}**")
+    
+    questions=st.text_input("questions")
+
+    if "lastclicked" not in st.session_state or st.session_state.lastclicked!=(clickedyear, clickedvalue, variable, country):
+        st.session_state.lastclicked=(clickedyear, clickedvalue, variable, country)
+        message={
+            "role": "system",
+            "content": (
+                f"Year: {clickedyear}, Value: {clickedvalue:.2f}, "
+                f"Variable: {variable}, Country: {country}. "
+                "This is the data context for the conversation."
+            )
+        }
+        st.session_state.history=[message]
+    
+    if questions.strip():
+        st.session_state.history.append({"role": "user", "content": questions})
+        chat_completion = client.chat.completions.create(
+            model="llama3-8b-8192",
+            messages=st.session_state.history
+        )
+        airesponse=chat_completion.choices[0].message.content
+        st.session_state.history.append({"role": "assistant", "content": airesponse})
+        st.write(airesponse)
