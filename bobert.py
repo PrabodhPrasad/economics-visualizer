@@ -1,7 +1,12 @@
 import streamlit as st
 import requests
 import plotly.graph_objects as go
+from streamlit_plotly_events import plotly_events
+import plotly.io as pio
+
 st.title("chart")
+if "plots" not in st.session_state:
+    st.session_state.plots=[]
 
 #getgdp
 def getgdp(country, startyear=2013, endyear=2025):
@@ -50,23 +55,26 @@ functions={
     "debt": getdebt,
 }
 
-if "plots" not in st.session_state:
-    st.session_state.plots = []
-col1, col2=st.columns(2)
+col1, col2, col3, col4=st.columns(4)
 with col1:
     countryinput=st.text_input("country code")
 with col2:
     variableinput=st.selectbox("choice", options=list(functions.keys()))
+with col3:
+    startyear=st.number_input("start year", min_value=1960, max_value=2025, value=2000)
+with col4:
+    endyear=st.number_input("end year", min_value=1960, max_value=2025, value=2025)
 
-if st.button("add"):
+if st.button("add") and startyear<endyear:
     if (len(countryinput) in [2, 3]) and countryinput.isalpha():
-        years, values = functions[variableinput](countryinput)
+        years, values = functions[variableinput](countryinput, startyear=startyear, endyear=endyear)
         st.session_state.plots.append({
             "x": years,
             "y": values,
             "label": f"{variableinput} of {countryinput}"
         })
 
+pio.templates.default="plotly"
 fig=go.Figure()
 for trace in st.session_state.plots:
     fig.add_trace(go.Scatter(
@@ -77,6 +85,12 @@ for trace in st.session_state.plots:
     ))
 
 fig.update_layout(
-    yaxis=dict(tickformat="$,")
+    yaxis=dict(tickformat=".2s", tickprefix="$"),
+    clickmode="event+select"
 )
-st.plotly_chart(fig)
+selectpoints=plotly_events(fig, click_event=True, hover_event=False)
+if selectpoints:
+    clicked=selectpoints[0]
+    clickedyear=clicked["x"]
+    clickedvalue=clicked["y"]
+    st.markdown(f"Year **{clickedyear}**, Value **{clickedvalue:,.2f}**")
