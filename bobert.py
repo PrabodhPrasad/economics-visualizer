@@ -14,7 +14,7 @@ if "history" not in st.session_state:
     st.session_state.history = []
 
 #getgdp
-def getgdp(country, startyear=2013, endyear=2025):
+def getgdp(country, startyear=1960, endyear=2025):
     url=f"http://api.worldbank.org/v2/country/{country}/indicator/NY.GDP.MKTP.CD"
     response=requests.get(url, {"format":"json", "date":f"{startyear}:{endyear}", "per_page":100})
 
@@ -29,8 +29,40 @@ def getgdp(country, startyear=2013, endyear=2025):
     years, gdps=zip(*combined)
     return years, gdps
 
+#getexp
+def getexp(country, startyear=1960, endyear=2025):
+    url=f"http://api.worldbank.org/v2/country/{country}/indicator/NE.EXP.GNFS.CD"
+    response=requests.get(url, {"format":"json", "date":f"{startyear}:{endyear}", "per_page":100})
+
+    years=[]
+    exps=[]
+    if len(response.json())>1:
+        for entry in response.json()[1]:
+            years.append(int(entry['date']))
+            exps.append(entry['value'])
+
+    combined=sorted(zip(years, exps))
+    years, exps=zip(*combined)
+    return years, exps
+
+#getimp
+def getimp(country, startyear=1960, endyear=2025):
+    url=f"http://api.worldbank.org/v2/country/{country}/indicator/NE.IMP.GNFS.CD"
+    response=requests.get(url, {"format":"json", "date":f"{startyear}:{endyear}", "per_page":100})
+
+    years=[]
+    imps=[]
+    if len(response.json())>1:
+        for entry in response.json()[1]:
+            years.append(int(entry['date']))
+            imps.append(entry['value'])
+
+    combined=sorted(zip(years, imps))
+    years, imps=zip(*combined)
+    return years, imps
+
 #getdebt
-def getdebt(country, startyear=2013, endyear=2025):
+def getdebt(country, startyear=1960, endyear=2025):
     gdpurl=f"http://api.worldbank.org/v2/country/{country}/indicator/NY.GDP.MKTP.CD"
     gdp_response = requests.get(gdpurl, {"format":"json", "date":f"{startyear}:{endyear}", "per_page":100})
     gdpdata={}
@@ -58,6 +90,8 @@ def getdebt(country, startyear=2013, endyear=2025):
 functions={
     "gdp": getgdp,
     "debt": getdebt,
+    "exports": getexp,
+    "imports": getimp
 }
 
 col1, col2, col3, col4=st.columns(4)
@@ -98,6 +132,8 @@ fig.update_layout(
 selectpoints=plotly_events(fig, click_event=True, hover_event=False)
 if selectpoints:
     clicked=selectpoints[0]
+    traceindex=clicked["curveNumber"]
+    trace=st.session_state.plots[traceindex]
     variable=trace["variable"]
     country=trace["country"]
     clickedyear=clicked["x"]
