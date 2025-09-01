@@ -3,6 +3,16 @@ from fastapi.middleware.cors import CORSMiddleware
 import requests
 
 app=FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*", "null"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 def fetchdata(country, indicator, startyear, endyear):
     url=f"http://api.worldbank.org/v2/country/{country}/indicator/{indicator}"
     response=requests.get(url, params={
