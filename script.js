@@ -1,39 +1,56 @@
 let clickeddata=null;
-async function loaddata(){
-    const country=document.getElementById("countryinput").value;
 
-    const response=await fetch(`http://localhost:8000/getgdp?country=${country}`);
-    const data=await response.json();
+window.onload=function (){
+    window.loaddata=async function (){
+        const plotdiv=document.getElementById("plot");
+        const country=document.getElementById("countryinput").value;
+        const variable=document.getElementById("variableselect").value;
 
-    const trace={
-        x: data.years,
-        y: data.values,
-        type: "scatter",
-        mode: "lines+markers",
-        name: `GDP (${country})`,
-    };
-    Plotly.newPlot("plot", [trace]);
-    const plotdiv=document.getElementById("plot");
+        const endpointmap={
+            getgdp: "getgdp",
+            getimports: "getimports",
+            getexports: "getexports",
+            getdebt: "getdebtusd"
+        };
+        const endpoint=endpointmap[variable];
 
-    plotdiv.on("plotly_click", function(eventdata){
-        const point=eventdata.points[0];
-        const year=point.x;
-        const value=point.y;
+        const response=await fetch(`http://localhost:8000/${endpoint}?country=${country}`);
+        const data=await response.json();
 
-        clickeddata={
-            year: year,
-            value: value,
-            country: country,
-            variable: "gdp"
+        const trace={
+            x: data.years,
+            y: data.values,
+            type: "scatter",
+            mode: "lines+markers",
+            name: `${variable.toUpperCase()} (${country})`,
+        };
+
+        if (!plotdiv.data || plotdiv.data.length === 0) {
+            Plotly.newPlot(plotdiv, [trace]).then(function (plot) {
+                plot.on("plotly_click", function (eventdata) {
+                    const point=eventdata.points[0];
+                    const year=point.x;
+                    const value=point.y;
+
+                    clickeddata={
+                        year: year,
+                        value: value,
+                        country: country,
+                        variable: variable
+                    };
+
+                    document.getElementById("info").innerHTML=`
+                        <p>
+                            <strong>year:</strong> ${year}<br>
+                            <strong>value:</strong> ${value.toLocaleString()}<br>
+                            <strong>country:</strong> ${country}<br>
+                            <strong>variable:</strong> ${variable.toUpperCase()}
+                        </p>
+                    `;
+                });
+            });
+        } else {
+            Plotly.addTraces(plotdiv, [trace]);
         }
-
-        document.getElementById("info").innerHTML=`
-            <p>
-                <strong>Year:</strong> ${year}<br>
-                <strong>Value:</strong> ${value.toLocaleString()}<br>
-                <strong>Country:</strong> ${country}<br>
-                <strong>Variable:</strong> GDP
-            </p>
-        `;
-    })
-}
+    };
+};

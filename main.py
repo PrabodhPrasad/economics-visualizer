@@ -42,3 +42,40 @@ def getgdp(
 ):
     years, values = fetchdata(country, "NY.GDP.MKTP.CD", startyear, endyear)
     return {"years": years, "values": values}
+
+@app.get("/getimports")
+def getimports(
+    country: str = Query(..., min_length=2, max_length=3),
+    startyear: int = Query(1960, ge=1960, le=2025),
+    endyear: int = Query(2025, ge=1960, le=2025),
+):
+    years, values = fetchdata(country, "NE.IMP.GNFS.CD", startyear, endyear)
+    return {"years": years, "values": values}
+
+@app.get("/getexports")
+def getexports(
+    country: str = Query(..., min_length=2, max_length=3),
+    startyear: int = Query(1960, ge=1960, le=2025),
+    endyear: int = Query(2025, ge=1960, le=2025),
+):
+    years, values = fetchdata(country, "NE.EXP.GNFS.CD", startyear, endyear)
+    return {"years": years, "values": values}
+
+@app.get("/getdebt")
+def getdebt(
+    country: str = Query(..., min_length=2, max_length=3),
+    startyear: int = Query(1960, ge=1960, le=2025),
+    endyear: int = Query(2025, ge=1960, le=2025),
+):
+    gdp_years, gdp_values = fetchdata(country, "NY.GDP.MKTP.CD", startyear, endyear)
+    debt_pct_years, debt_pct_values = fetchdata(country, "GC.DOD.TOTL.GD.ZS", startyear, endyear)
+    gdp_dict = dict(zip(gdp_years, gdp_values))
+    debt_usd_years = []
+    debt_usd_values = []
+    for year, debt_pct in zip(debt_pct_years, debt_pct_values):
+        gdp = gdp_dict.get(year)
+        if gdp is not None and debt_pct is not None:
+            debt_usd = gdp * debt_pct / 100
+            debt_usd_years.append(year)
+            debt_usd_values.append(debt_usd)
+    return {"years": debt_usd_years, "values": debt_usd_values}
