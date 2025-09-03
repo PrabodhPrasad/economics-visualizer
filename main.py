@@ -1,17 +1,29 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 import requests
+from groq import Groq
+import uvicorn
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+import os
 
 app=FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*", "null"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+app.mount("/static", StaticFiles(directory="static", html=True), name="static")
+
+@app.get("/")
+async def readindex():
+    return FileResponse(os.path.join("static", "index.html"))
+
+client=Groq(api_key="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")
 
 def fetchdata(country, indicator, startyear, endyear):
     url=f"http://api.worldbank.org/v2/country/{country}/indicator/{indicator}"
@@ -79,3 +91,19 @@ def getdebt(
             debt_usd_years.append(year)
             debt_usd_values.append(debt_usd)
     return {"years": debt_usd_years, "values": debt_usd_values}
+
+@app.post("/chat")
+async def chat_endpoint(request: Request):
+    body=await request.json()
+    messages=body.get("messages", [])
+
+    chat_completion = client.chat.completions.create(
+        model="llama-3.1-8b-instant",
+        messages=messages,
+    )
+    responsetext=chat_completion.choices[0].message.content
+
+    return {"response": responsetext}
+
+if __name__=="__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

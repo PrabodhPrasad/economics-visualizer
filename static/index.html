@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="script.js"></script>
+    <script src="/static/script.js"></script>
 </head>
 <body>
     <label>code</label>
@@ -19,5 +19,8 @@
         <option value="getexports">exports</option>
         <option value="getdebt">debt</option>
     </select>
+    <textarea id="userquestion"></textarea>
+    <button onclick="ask()">ask</button>
+    <pre id="response"></pre>
 </body>
 </html>

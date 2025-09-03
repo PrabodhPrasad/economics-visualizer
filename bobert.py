@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 from streamlit_plotly_events import plotly_events
 import plotly.io as pio
 from groq import Groq
-client = Groq(api_key="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")
+client=Groq(api_key="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")
 
 st.title("chart")
 if "plots" not in st.session_state:

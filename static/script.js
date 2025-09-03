@@ -10,7 +10,7 @@ window.onload=function (){
             getgdp: "getgdp",
             getimports: "getimports",
             getexports: "getexports",
-            getdebt: "getdebtusd"
+            getdebt: "getdebt"
         };
         const endpoint=endpointmap[variable];
 
@@ -53,4 +53,30 @@ window.onload=function (){
             Plotly.addTraces(plotdiv, [trace]);
         }
     };
+
+    window.ask=async function(){
+
+    const questioninput =document.getElementById("userquestion");
+    const question=questioninput.value.trim();
+
+    const messages=[
+      {
+        role: "system",
+        content: `you are a data analyst bot. data context: year=${clickeddata.year}, value=${clickeddata.value}, variable=${clickeddata.variable}, country=${clickeddata.country}.`
+      },
+      {
+        role: "user",
+        content: question
+      }
+    ];
+
+    const response=await fetch("http://localhost:8000/chat",{
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages })
+    });
+
+    const data=await response.json();
+    document.getElementById("response").innerText=data.response;
+  };
 };
