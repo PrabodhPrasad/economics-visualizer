@@ -4,18 +4,14 @@ document.getElementById('update').addEventListener('click', () => {
     drawmap(selectedVariable, selectedYear);
 });
 
-async function fetchMapData(variable, year=2020) {
+async function fetchmapdata(variable, year=2020) {
     const response=await fetch(`http://localhost:8000/mapdata?variable=${variable}&year=${year}`);
-    if (!response.ok) {
-        console.error("Failed to fetch map data");
-        return {locations: [], values: [], hoverText: []};
-    }
     const data=await response.json();
     return data;
 }
 
 async function drawmap(variable="getgdp", year=2020) {
-    const data=await fetchMapData(variable, year);
+    const data=await fetchmapdata(variable, year);
     const trace={
         type: 'choropleth',
         locations: data.locations,
