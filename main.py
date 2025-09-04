@@ -23,7 +23,8 @@ app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 async def readindex():
     return FileResponse(os.path.join("static", "index.html"))
 
-client=Groq(api_key="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")
+api_key=os.getenv("GROQ_API_KEY")
+client=Groq(api_key=api_key)
 
 def fetchdata(country, indicator, startyear, endyear):
     url=f"http://api.worldbank.org/v2/country/{country}/indicator/{indicator}"
@@ -154,5 +155,3 @@ def mapdata(variable: str=Query("gdp"), year: int=Query(2020)):
         "hoverText": hoverText
     }
 
-if __name__=="__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
