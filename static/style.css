@@ -9,7 +9,7 @@ body{
     color: #252422;
 }
 h1{
-    font-size: 100px;
+    font-size: 70px;
     margin: 20px;
 }
 .inputgrp{
@@ -126,4 +126,75 @@ h1{
 #info p{
     margin: 20px;
     font-size: 20px;
+}
+.mapinputcontainer{
+    display: flex;
+    align-items: stretch;
+    gap: 5px;
+    margin: 20px;
+}
+.mapvariables{
+    font-size: 30px;
+    padding: 5px 40px 5px 10px;
+    border: 2px solid #ccc5b9;
+    border-radius: 5px;
+    background-color: #fffcf2;
+    color: #252422;
+    outline: none;
+    transition: 0.25s;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path fill='%23252422' d='M0 0l6 8 6-8z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px 8px;
+}
+.mapvariables:hover{
+    border: #403d39 2px solid;
+    background-color: #403d39;
+    color: #ccc5b9;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path fill='%23ccc5b9' d='M0 0l6 8 6-8z'/></svg>");
+}
+.mapvariables:active{
+    border: #eb5e28 2px solid;
+    background-color: #fffcf2;
+    color: #252422;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path fill='%23252422' d='M0 0l6 8 6-8z'/></svg>");
+}
+.mapinputcontainer input{
+    text-align: center;
+    background-color: #fffcf2;
+    border: #ccc5b9 2px solid;
+    width: 5ch;
+    font-size: 40px;
+    border-radius: 5px;
+    outline: none;
+    transition: 0.25s;
+    text-transform: uppercase;
+}
+.mapinputcontainer input:hover{
+    border: #403d39 2px solid;
+}
+.mapinputcontainer input:focus{
+    border: #eb5e28 2px solid;
+}
+.mapinputcontainer button{
+    background-color: #fffcf2;
+    border: #ccc5b9 2px solid;
+    font-size: 30px;
+    border-radius: 5px;
+    outline: none;
+    transition: 0.25s;
+    padding: 5px 10px;
+}
+.mapinputcontainer button:hover{
+    border: #403d39 2px solid;
+    background-color: #403d39;
+    color: #ccc5b9;
+}
+.mapinputcontainer button:active{
+    border: #eb5e28 2px solid;
+    background-color: #fffcf2;
+    color: #252422;
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="/static/map.js" defer></script>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>world eco map</h1>
+    <div id="mapplot" style="height: 600px;"></div>
+    <div class="mapinputcontainer">
+        <select id="variable" class="mapvariables">
+            <option value="getgdp">gdp</option>
+            <option value="getimports">imports</option>
+            <option value="getexports">exports</option>
+            <option value="getdebt">debt</option>
+        </select>
+        <input id="yearinput" min="1960" max="2025" value="2020" maxlength="4"/>
+        <button id="update">update</button>
+    </div>
+</body>
+</html>

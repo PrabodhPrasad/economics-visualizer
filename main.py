@@ -105,5 +105,54 @@ async def chat_endpoint(request: Request):
 
     return {"response": responsetext}
 
+@app.get("/mapdata")
+def mapdata(variable: str=Query("getgdp"), year: int=Query(2020)):
+    if variable=="getgdp":
+        indicator="NY.GDP.MKTP.CD"
+        is_currency=True
+    elif variable=="getimports":
+        indicator="NE.IMP.GNFS.CD"
+        is_currency=True
+    elif variable=="getexports":
+        indicator="NE.EXP.GNFS.CD"
+        is_currency=True
+    elif variable=="getdebt":
+        indicator="GC.DOD.TOTL.GD.ZS"
+        is_currency=False
+    else:
+        return {"error": "Invalid variable"}
+
+    url=f"http://api.worldbank.org/v2/country/all/indicator/{indicator}"
+    response=requests.get(url, params={
+        "format": "json",
+        "date": year,
+        "per_page": 300
+    })
+
+    data=response.json()
+    if len(data)<2:
+        return {"locations": [], "values": [], "hoverText": []}
+
+    locations=[]
+    values=[]
+    hoverText=[]
+
+    for entry in data[1]:
+        iso3=entry["countryiso3code"]
+        value=entry["value"]
+        name=entry["country"]["value"]
+        if iso3 and value is not None:
+            locations.append(iso3)
+            values.append(value)
+            label=f"{name} ({iso3}) {variable.upper()}: "
+            label+=f"${value:,.0f}" if is_currency else f"{value:.2f}% of GDP"
+            hoverText.append(label)
+
+    return {
+        "locations": locations,
+        "values": values,
+        "hoverText": hoverText
+    }
+
 if __name__=="__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
