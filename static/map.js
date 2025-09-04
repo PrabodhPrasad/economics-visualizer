@@ -5,7 +5,7 @@ document.getElementById('update').addEventListener('click', () => {
 });
 
 async function fetchmapdata(variable, year=2020) {
-    const response=await fetch(`http://localhost:8000/mapdata?variable=${variable}&year=${year}`);
+    const response=await fetch(`https://economics-visualizer.onrender.com/mapdata?variable=${variable}&year=${year}`);
     const data=await response.json();
     return data;
 }

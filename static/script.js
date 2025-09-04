@@ -38,7 +38,7 @@ window.onload=function (){
             return;
         }
 
-        const response=await fetch(`http://localhost:8000/${endpoint}?country=${country}&startyear=${startyear}&endyear=${endyear}`);
+        const response=await fetch(`https://economics-visualizer.onrender.com/${endpoint}?country=${country}&startyear=${startyear}&endyear=${endyear}`);
         const data=await response.json();
 
         const trace={
