@@ -10,7 +10,7 @@ async function fetchmapdata(variable, year=2020) {
     return data;
 }
 
-async function drawmap(variable="getgdp", year=2020) {
+async function drawmap(variable="gdp", year=2020) {
     const data=await fetchmapdata(variable, year);
     const trace={
         type: 'choropleth',
@@ -51,7 +51,7 @@ async function drawmap(variable="getgdp", year=2020) {
             const iso3=point.location;
             const selectedvariable=document.getElementById("variable").value;
             const url=`/static/index.html?country=${iso3}&variable=${selectedvariable}`;
-            window.location.href=url;
+            window.open(url, '_blank');
         })
     })
 }

@@ -46,8 +46,8 @@ def fetchdata(country, indicator, startyear, endyear):
     years, values=zip(*combined)
     return years, values
 
-@app.get("/getgdp")
-def getgdp(
+@app.get("/gdp")
+def gdp(
     country: str=Query(..., min_length=2, max_length=3),
     startyear: int=Query(1960, ge=1960, le=2025),
     endyear: int=Query(2025, ge=1960, le=2025),
@@ -55,8 +55,8 @@ def getgdp(
     years, values = fetchdata(country, "NY.GDP.MKTP.CD", startyear, endyear)
     return {"years": years, "values": values}
 
-@app.get("/getimports")
-def getimports(
+@app.get("/imports")
+def imports(
     country: str = Query(..., min_length=2, max_length=3),
     startyear: int = Query(1960, ge=1960, le=2025),
     endyear: int = Query(2025, ge=1960, le=2025),
@@ -64,8 +64,8 @@ def getimports(
     years, values = fetchdata(country, "NE.IMP.GNFS.CD", startyear, endyear)
     return {"years": years, "values": values}
 
-@app.get("/getexports")
-def getexports(
+@app.get("/exports")
+def exports(
     country: str = Query(..., min_length=2, max_length=3),
     startyear: int = Query(1960, ge=1960, le=2025),
     endyear: int = Query(2025, ge=1960, le=2025),
@@ -73,8 +73,8 @@ def getexports(
     years, values = fetchdata(country, "NE.EXP.GNFS.CD", startyear, endyear)
     return {"years": years, "values": values}
 
-@app.get("/getdebt")
-def getdebt(
+@app.get("/debt")
+def debt(
     country: str = Query(..., min_length=2, max_length=3),
     startyear: int = Query(1960, ge=1960, le=2025),
     endyear: int = Query(2025, ge=1960, le=2025),
@@ -106,17 +106,17 @@ async def chat_endpoint(request: Request):
     return {"response": responsetext}
 
 @app.get("/mapdata")
-def mapdata(variable: str=Query("getgdp"), year: int=Query(2020)):
-    if variable=="getgdp":
+def mapdata(variable: str=Query("gdp"), year: int=Query(2020)):
+    if variable=="gdp":
         indicator="NY.GDP.MKTP.CD"
         is_currency=True
-    elif variable=="getimports":
+    elif variable=="imports":
         indicator="NE.IMP.GNFS.CD"
         is_currency=True
-    elif variable=="getexports":
+    elif variable=="exports":
         indicator="NE.EXP.GNFS.CD"
         is_currency=True
-    elif variable=="getdebt":
+    elif variable=="debt":
         indicator="GC.DOD.TOTL.GD.ZS"
         is_currency=False
     else:

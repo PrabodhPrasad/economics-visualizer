@@ -27,10 +27,10 @@ window.onload=function (){
         const endyear=parseInt(document.getElementById("endyear").value)||2020;
 
         const endpointmap={
-            getgdp: "getgdp",
-            getimports: "getimports",
-            getexports: "getexports",
-            getdebt: "getdebt"
+            gdp: "gdp",
+            imports: "imports",
+            exports: "exports",
+            debt: "debt"
         };
         const endpoint=endpointmap[variable];
         const tracename=`${variable.toUpperCase()} (${country})`;
