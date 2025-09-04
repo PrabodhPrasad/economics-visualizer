@@ -38,11 +38,16 @@ async function drawmap(variable="getgdp", year=2020) {
         geo: {
             projection: {
                 type: 'orthographic',
+                rotation: {
+                    lon: 83,
+                    lat: 20,
+                    roll: 0
+                }
             },
             bgcolor: '#fffcf2'
         },
         paper_bgcolor: '#fffcf2',
-        margin: { t: 20, b: 0 }
+        margin: { t: 20, b: 0 },
     };
     Plotly.newPlot('mapplot', [trace], layout);
 }

@@ -12,6 +12,8 @@ window.onload=function (){
         const plotdiv=document.getElementById("plot");
         const country=document.getElementById("countryinput").value;
         const variable=document.getElementById("variableselect").value;
+        const startyear=parseInt(document.getElementById("startyear").value)||2010;
+        const endyear=parseInt(document.getElementById("endyear").value)||2020;
 
         const endpointmap={
             getgdp: "getgdp",
@@ -21,7 +23,7 @@ window.onload=function (){
         };
         const endpoint=endpointmap[variable];
 
-        const response=await fetch(`http://localhost:8000/${endpoint}?country=${country}`);
+        const response=await fetch(`http://localhost:8000/${endpoint}?country=${country}&startyear=${startyear}&endyear=${endyear}`);
         const data=await response.json();
 
         const trace={
@@ -30,20 +32,20 @@ window.onload=function (){
             type: "scatter",
             mode: "lines+markers",
             name: `${variable.toUpperCase()} (${country})`,
-                customdata: data.years.map((_, i) => ({
+                customdata: data.years.map((year, i) => ({
                 country,
-                variable
+                variable,
+                year
             }))
         };
 
-        if (!plotdiv.data || plotdiv.data.length === 0) {
-            Plotly.newPlot(plotdiv, [trace]).then(function (plot) {
-                plot.on("plotly_click", function (eventdata) {
+        if (!plotdiv.data || plotdiv.data.length===0){
+            Plotly.newPlot(plotdiv, [trace], {hovermode: "closest", plot_bgcolor: "#fffcf2", paper_bgcolor: "#fffcf2"}).then(function (plot){
+                plot.on("plotly_click", function (eventdata){
                     const point=eventdata.points[0];
-                    const year=point.x;
                     const value=point.y;
 
-                    const{country: clickedcountry, variable: clickedvariable}=point.customdata;
+                    const{country: clickedcountry, variable: clickedvariable, year}=point.customdata;
 
                     clickeddata={
                         year: year,
