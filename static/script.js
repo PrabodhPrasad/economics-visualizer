@@ -97,7 +97,7 @@ window.onload=function (){
 
         messages.push({role: "user", content: question})
 
-        const response=await fetch("http://localhost:8000/chat",{
+        const response=await fetch("https://economics-visualizer.onrender.com/chat",{
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({messages})
