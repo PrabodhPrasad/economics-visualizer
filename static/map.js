@@ -45,7 +45,15 @@ async function drawmap(variable="getgdp", year=2020) {
         paper_bgcolor: '#fffcf2',
         margin: { t: 20, b: 0 },
     };
-    Plotly.newPlot('mapplot', [trace], layout);
+    Plotly.newPlot('mapplot', [trace], layout).then(plot=>{
+        plot.on("plotly_click", function(eventdata){
+            const point=eventdata.points[0];
+            const iso3=point.location;
+            const selectedvariable=document.getElementById("variable").value;
+            const url=`/static/index.html?country=${iso3}&variable=${selectedvariable}`;
+            window.location.href=url;
+        })
+    })
 }
 
 drawmap();

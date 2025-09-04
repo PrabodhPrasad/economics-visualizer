@@ -8,6 +8,17 @@ let messages=[
 ];
 
 window.onload=function (){
+    const urlparams=new URLSearchParams(window.location.search);
+    const countryparam=urlparams.get("country");
+    const variableparam=urlparams.get("variable");
+
+    if(countryparam){
+        document.getElementById("countryinput").value=countryparam;
+    }
+    if(variableparam){
+        document.getElementById("variableselect").value=variableparam;
+    }
+
     window.loaddata=async function (){
         const plotdiv=document.getElementById("plot");
         const country=document.getElementById("countryinput").value;
