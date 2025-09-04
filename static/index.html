@@ -6,21 +6,28 @@
     <title>Document</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="/static/script.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <label>code</label>
-    <input type="text" id="countryinput">
-    <button onclick="loaddata()">load</button>
+    <h1>eco visualiser</h1>
+    <div class="inputgrp">
+        <input type="text" id="countryinput" maxlength="3">
+        <select id="variableselect">
+            <option value="getgdp">gdp</option>
+            <option value="getimports">imports</option>
+            <option value="getexports">exports</option>
+            <option value="getdebt">debt</option>
+        </select>
+        <button onclick="loaddata()">load</button>
+    </div>
     <div id="plot" style="width: 100%;"></div>
     <div id="info"></div>
-    <select id="variableselect">
-        <option value="getgdp">gdp</option>
-        <option value="getimports">imports</option>
-        <option value="getexports">exports</option>
-        <option value="getdebt">debt</option>
-    </select>
-    <textarea id="userquestion"></textarea>
-    <button onclick="ask()">ask</button>
-    <pre id="response"></pre>
+    <div id="clickafter" style="display: none;">
+        <div class="askie">
+            <textarea id="userquestion" cols="100"></textarea>
+            <button onclick="ask()">ask</button>
+        </div>
+        <p id="response"></p>
+    </div>
 </body>
 </html>

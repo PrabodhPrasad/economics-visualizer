@@ -1,5 +1,12 @@
 let clickeddata=null;
 
+let messages=[
+    {
+        role: "system",
+        content: "you are a data analyst bot. data context: year=..., value=..., variable=..., country=...."
+    }
+];
+
 window.onload=function (){
     window.loaddata=async function (){
         const plotdiv=document.getElementById("plot");
@@ -23,6 +30,10 @@ window.onload=function (){
             type: "scatter",
             mode: "lines+markers",
             name: `${variable.toUpperCase()} (${country})`,
+                customdata: data.years.map((_, i) => ({
+                country,
+                variable
+            }))
         };
 
         if (!plotdiv.data || plotdiv.data.length === 0) {
@@ -32,19 +43,22 @@ window.onload=function (){
                     const year=point.x;
                     const value=point.y;
 
+                    const{country: clickedcountry, variable: clickedvariable}=point.customdata;
+
                     clickeddata={
                         year: year,
                         value: value,
-                        country: country,
-                        variable: variable
+                        country: clickedcountry,
+                        variable: clickedvariable
                     };
+                    document.getElementById("clickafter").style.display="block";
 
                     document.getElementById("info").innerHTML=`
                         <p>
                             <strong>year:</strong> ${year}<br>
                             <strong>value:</strong> ${value.toLocaleString()}<br>
-                            <strong>country:</strong> ${country}<br>
-                            <strong>variable:</strong> ${variable.toUpperCase()}
+                            <strong>country:</strong> ${clickedcountry}<br>
+                            <strong>variable:</strong> ${clickedvariable.toUpperCase()}
                         </p>
                     `;
                 });
@@ -56,27 +70,25 @@ window.onload=function (){
 
     window.ask=async function(){
 
-    const questioninput =document.getElementById("userquestion");
-    const question=questioninput.value.trim();
+        const questioninput=document.getElementById("userquestion");
+        const question=questioninput.value.trim();
 
-    const messages=[
-      {
-        role: "system",
-        content: `you are a data analyst bot. data context: year=${clickeddata.year}, value=${clickeddata.value}, variable=${clickeddata.variable}, country=${clickeddata.country}.`
-      },
-      {
-        role: "user",
-        content: question
-      }
-    ];
+        messages.unshift({
+            role: "system",
+            content:`you are a data analyst bot. data context: year=${clickeddata.year}, value=${clickeddata.value}, variable=${clickeddata.variable}, country=${clickeddata.country}.`
+        });
 
-    const response=await fetch("http://localhost:8000/chat",{
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages })
-    });
+        messages.push({role: "user", content: question})
 
-    const data=await response.json();
-    document.getElementById("response").innerText=data.response;
-  };
+        const response=await fetch("http://localhost:8000/chat",{
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({messages})
+        });
+
+        const data=await response.json();
+        messages.push({role: "assistant", content: data.response})
+        document.getElementById("response").innerText=data.response;
+        questioninput.value="";
+    };
 };
