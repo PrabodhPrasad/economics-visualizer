@@ -22,6 +22,10 @@ window.onload=function (){
             getdebt: "getdebt"
         };
         const endpoint=endpointmap[variable];
+        const tracename=`${variable.toUpperCase()} (${country})`;
+        if (plotdiv.data && plotdiv.data.some(trace=>trace.name===tracename)){
+            return;
+        }
 
         const response=await fetch(`http://localhost:8000/${endpoint}?country=${country}&startyear=${startyear}&endyear=${endyear}`);
         const data=await response.json();
