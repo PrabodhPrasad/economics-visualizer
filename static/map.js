@@ -46,7 +46,18 @@ async function drawmap(variable="gdp", year=2020) {
         margin: { t: 20, b: 0 },
     };
     Plotly.newPlot('mapplot', [trace], layout).then(plot=>{
+        let dragstarted=false;
+        const mapelement=document.getElementById("mapplot");
+        mapelement.addEventListener("mousedown", ()=>{
+            dragstarted=false;
+        })
+        mapelement.addEventListener("mousemove", ()=>{
+            dragstarted=true;
+        })
         plot.on("plotly_click", function(eventdata){
+            if (dragstarted){
+                return;
+            }
             const point=eventdata.points[0];
             const iso3=point.location;
             const selectedvariable=document.getElementById("variable").value;
