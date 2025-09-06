@@ -18,6 +18,10 @@ window.onload=function (){
     if(variableparam){
         document.getElementById("variableselect").value=variableparam;
     }
+    if (countryparam||variableparam) {
+        loaddata();
+    }
+
 
     window.loaddata=async function (){
         const plotdiv=document.getElementById("plot");
@@ -33,14 +37,12 @@ window.onload=function (){
             debt: "debt"
         };
         const endpoint=endpointmap[variable];
-        const tracename=`${variable.toUpperCase()} (${country})`;
-        if (plotdiv.data && plotdiv.data.some(trace=>trace.name===tracename)){
-            return;
-        }
 
-        const response=await fetch(`https://economics-visualizer.onrender.com/${endpoint}?country=${country}&startyear=${startyear}&endyear=${endyear}`);
+        //const response=await fetch(`https://economics-visualizer.onrender.com/${endpoint}?country=${country}&startyear=${startyear}&endyear=${endyear}`);
+        const response=await fetch(`/${endpoint}?country=${country}&startyear=${startyear}&endyear=${endyear}`);
+
         const data=await response.json();
-
+        
         const trace={
             x: data.years,
             y: data.values,
@@ -53,6 +55,21 @@ window.onload=function (){
                 year
             }))
         };
+
+        function arraysequal(a, b) {
+            if (!a||!b) return false;
+            if (a.length!==b.length) return false;
+            for (let i=0; i<a.length; i++) {
+                if (a[i]!==b[i]) return false;
+            }
+            return true;
+        }
+        function issametrace(existingtrace, newtrace) {
+            if (!arraysequal(existingtrace.x, newtrace.x)) return false;
+            if (!arraysequal(existingtrace.y, newtrace.y)) return false;
+            if (existingtrace.name!==newtrace.name) return false;
+            return true;
+        }
 
         if (!plotdiv.data || plotdiv.data.length===0){
             Plotly.newPlot(plotdiv, [trace], {hovermode: "closest", plot_bgcolor: "#fffcf2", paper_bgcolor: "#fffcf2"}).then(function (plot){
@@ -80,8 +97,13 @@ window.onload=function (){
                     `;
                 });
             });
-        } else {
-            Plotly.addTraces(plotdiv, [trace]);
+        }
+        else{
+            const existingtraces=plotdiv.data||[];
+            const ae=existingtraces.some(t=>issametrace(t, trace));
+            if (!ae){
+                Plotly.addTraces(plotdiv, [trace]);
+            }
         }
     };
 
@@ -97,7 +119,7 @@ window.onload=function (){
 
         messages.push({role: "user", content: question})
 
-        const response=await fetch("https://economics-visualizer.onrender.com/chat",{
+        const response=await fetch("/chat",{
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({messages})

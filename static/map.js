@@ -3,9 +3,13 @@ document.getElementById('update').addEventListener('click', () => {
     const selectedYear=parseInt(document.getElementById("yearinput").value)||2020;
     drawmap(selectedVariable, selectedYear);
 });
+let graphwindow=null;
 
 async function fetchmapdata(variable, year=2020) {
-    const response=await fetch(`https://economics-visualizer.onrender.com/mapdata?variable=${variable}&year=${year}`);
+
+    //const response=await fetch(`https://economics-visualizer.onrender.com/mapdata?variable=${variable}&year=${year}`);
+    const response=await fetch(`/mapdata?variable=${variable}&year=${year}`);
+
     const data=await response.json();
     return data;
 }
