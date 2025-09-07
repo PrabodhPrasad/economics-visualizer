@@ -1,9 +1,9 @@
 document.getElementById('update').addEventListener('click', () => {
-    const selectedVariable=document.getElementById("variable").value;
-    const selectedYear=parseInt(document.getElementById("yearinput").value)||2020;
     drawmap(selectedVariable, selectedYear);
+    const selectedvariable=document.getElementById("variable").value;
+    const selectedyear=parseInt(document.getElementById("yearinput").value)||2020;
+    drawmap(selectedvariable, selectedyear);
 });
-let graphwindow=null;
 
 async function fetchmapdata(variable, year=2020) {
 
@@ -65,8 +65,6 @@ async function drawmap(variable="gdp", year=2020) {
             const point=eventdata.points[0];
             const iso3=point.location;
             const selectedvariable=document.getElementById("variable").value;
-            const url=`/static/index.html?country=${iso3}&variable=${selectedvariable}`;
-            window.open(url, '_blank');
         })
     })
 }

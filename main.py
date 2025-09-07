@@ -25,8 +25,7 @@ app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 async def readindex():
     return FileResponse(os.path.join("static", "index.html"))
 
-api_key=os.getenv("GROQ_API_KEY")
-client=Groq(api_key=api_key)
+client=Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 def fetchdata(country, indicator, startyear, endyear):
     url=f"http://api.worldbank.org/v2/country/{country}/indicator/{indicator}"
@@ -100,8 +99,8 @@ async def chat_endpoint(request: Request):
     body=await request.json()
     messages=body.get("messages", [])
 
-    chat_completion = client.chat.completions.create(
-        model="llama-3.1-8b-instant",
+    chat_completion=client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
         messages=messages,
     )
     responsetext=chat_completion.choices[0].message.content
@@ -156,4 +155,3 @@ def mapdata(variable: str=Query("gdp"), year: int=Query(2020)):
         "values": values,
         "hoverText": hoverText
     }
-

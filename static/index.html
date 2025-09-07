@@ -5,31 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="/static/script.js"></script>
-    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/script.js?v=2"></script>
+    <script src="/static/map.js?v=2" defer></script>
+    <script src="/static/switch.js"></script>
+    <link rel="stylesheet" href="/static/style.css?v=2">
 </head>
 <body>
-    <h1>eco visualiser</h1>
-    <div class="inputgrp">
-        <input type="text" id="countryinput" maxlength="3" value="USA">
-        <select id="variableselect">
-            <option value="gdp">gdp</option>
-            <option value="imports">imports</option>
-            <option value="exports">exports</option>
-            <option value="debt">debt</option>
-        </select>
-        <input id="startyear" min="1960" max="2025" value="2010" maxlength="4">
-        <input id="endyear" min="1960" max="2025" value="2020" maxlength="4">
-        <button onclick="loaddata()">load</button>
+    <div id="toolbar">
+        <button onclick="toggle()">toggle</button>
     </div>
-    <div id="plot" style="width: 100%;"></div>
-    <div id="info"></div>
-    <div id="clickafter" style="display: none;">
-        <div class="askie">
-            <textarea id="userquestion" cols="100"></textarea>
-            <button onclick="ask()">ask</button>
+    <div id="container">
+        <div id="graph">
+            <h1>eco visualiser</h1>
+            <div class="inputgrp">
+                <input type="text" id="countryinput" maxlength="3" value="USA">
+                <select id="variableselect">
+                    <option value="gdp">gdp</option>
+                    <option value="imports">imports</option>
+                    <option value="exports">exports</option>
+                    <option value="debt">debt</option>
+                </select>
+                <input id="startyear" min="1960" max="2025" value="2010" maxlength="4">
+                <input id="endyear" min="1960" max="2025" value="2020" maxlength="4">
+                <button onclick="loaddata()">load</button>
+            </div>
+            <div id="plot" style="width: 100%;"></div>
+            <div id="info"></div>
+            <div id="clickafter" style="display: none;">
+                <div class="askie">
+                    <textarea id="userquestion" cols="100"></textarea>
+                    <button onclick="ask()">ask</button>
+                </div>
+                <p id="response" style="margin: 20px;"></p>
+            </div>
         </div>
-        <p id="response" style="margin: 20px;"></p>
+        <div id="map">
+            <h1>world eco map</h1>
+            <div id="mapplot" style="height: 600px;"></div>
+            <div class="mapinputcontainer">
+                <select id="variable" class="mapvariables">
+                    <option value="gdp">gdp</option>
+                    <option value="imports">imports</option>
+                    <option value="exports">exports</option>
+                    <option value="debt">debt</option>
+                </select>
+                <input id="yearinput" min="1960" max="2025" value="2020" maxlength="4"/>
+                <button id="update">update</button>
+            </div>
+        </div>
     </div>
 </body>
 </html>
