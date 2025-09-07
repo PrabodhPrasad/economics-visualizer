@@ -155,3 +155,19 @@ def mapdata(variable: str=Query("gdp"), year: int=Query(2020)):
         "values": values,
         "hoverText": hoverText
     }
+
+@app.get("/currency/history")
+def currencyhistory(
+    base: str=Query("USD", min_length=3, max_length=3),
+    target: str=Query("EUR", min_length=3, max_length=3),
+    start: str=Query("2023-01-01"),
+    end: str=Query("2023-12-31")
+):
+    url=f"https://api.frankfurter.app/{start}..{end}?from={base}&to={target}"
+    response=requests.get(url)
+    
+    data=response.json()
+    dates=sorted(data["rates"].keys())
+    values=[data["rates"][date][target] for date in dates]
+
+    return{"dates": dates, "values": values}

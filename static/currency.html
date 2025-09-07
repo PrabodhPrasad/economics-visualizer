@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="currency.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="/static/style.css?v=2">
+</head>
+<body>
+    <h1>currency visualiser</h1>
+    <div class="inputgrpcurrency">
+        <input id="basecurrency" maxlength="3" value="USD" style="width: 5ch;">
+        <input id="targetcurrency" maxlength="3" value="EUR" style="width: 5ch;">
+        <input type="text" id="startdate" value="2010-01-01" style="width: 10ch;">
+        <input type="text" id="enddate" value="2020-12-31" style="width: 10ch;">
+        <button onclick="updateplot()">load</button>
+    </div>
+    <div id="plot" style="width: 100%;"></div>
+</body>
+</html>

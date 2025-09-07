@@ -1,11 +1,10 @@
-document.getElementById('update').addEventListener('click', () => {
-    drawmap(selectedVariable, selectedYear);
+document.getElementById('update').addEventListener('click', ()=>{
     const selectedvariable=document.getElementById("variable").value;
     const selectedyear=parseInt(document.getElementById("yearinput").value)||2020;
     drawmap(selectedvariable, selectedyear);
 });
 
-async function fetchmapdata(variable, year=2020) {
+async function fetchmapdata(variable, year=2020){
 
     //const response=await fetch(`https://economics-visualizer.onrender.com/mapdata?variable=${variable}&year=${year}`);
     const response=await fetch(`/mapdata?variable=${variable}&year=${year}`);
@@ -65,6 +64,10 @@ async function drawmap(variable="gdp", year=2020) {
             const point=eventdata.points[0];
             const iso3=point.location;
             const selectedvariable=document.getElementById("variable").value;
+            document.getElementById("variableselect").value=selectedvariable;
+            document.getElementById("countryinput").value=iso3;
+            document.getElementById("endyear").value=parseInt(document.getElementById("yearinput").value);
+            toggle()
         })
     })
 }
