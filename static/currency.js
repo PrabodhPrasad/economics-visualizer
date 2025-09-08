@@ -1,5 +1,6 @@
 async function loadcurrencydata(base="USD", target="EUR", start="2010-01-01", end="2020-12-31") {
-    const response=await fetch(`/currency/history?base=${base}&target=${target}&start=${start}&end=${end}`);
+    const response=await fetch(`https://economics-visualizer.onrender.com/currency/history?base=${base}&target=${target}&start=${start}&end=${end}`);
+    //const response=await fetch(`/currency/history?base=${base}&target=${target}&start=${start}&end=${end}`);
     const data=await response.json();
 
     const trace={
