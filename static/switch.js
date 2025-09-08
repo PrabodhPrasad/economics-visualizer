@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentindex=0;
     const views=["graph", "map", "currency"];
     const container=document.getElementById("container");
-    function showview(index){
+    window.showview=function(index){
         currentindex=index;
         container.style.transform=`translateX(-${index * 100}vw)`;
     }
