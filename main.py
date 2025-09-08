@@ -6,8 +6,8 @@ import uvicorn
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 import os
-from dotenv import load_dotenv
-load_dotenv()
+#from dotenv import load_dotenv
+#load_dotenv()
 
 app=FastAPI()
 
@@ -25,7 +25,8 @@ app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 async def readindex():
     return FileResponse(os.path.join("static", "index.html"))
 
-client=Groq(api_key=os.getenv("GROQ_API_KEY"))
+api_key=os.getenv("GROQ_API_KEY")
+client=Groq(api_key=api_key)
 
 def fetchdata(country, indicator, startyear, endyear):
     url=f"http://api.worldbank.org/v2/country/{country}/indicator/{indicator}"
