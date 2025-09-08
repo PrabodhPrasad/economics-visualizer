@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>economics-visualiser</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="/static/script.js?v=2"></script>
-    <script src="/static/map.js?v=2" defer></script>
-    <script src="/static/switch.js"></script>
+    <script src="/static/switch.js?v=2"></script>
+    <script src="/static/map.js?v=5" defer></script>
+    <script src="/static/currency.js?v=2"></script>
     <link rel="stylesheet" href="/static/style.css?v=2">
 </head>
 <body>
     <div id="toolbar">
-        <button onclick="toggle()">toggle</button>
+        <button id="rightarrow">toggle &#8594;</button>
     </div>
     <div id="container">
         <div id="graph">
@@ -52,6 +53,17 @@
                 <input id="yearinput" min="1960" max="2025" value="2020" maxlength="4"/>
                 <button id="update">update</button>
             </div>
+        </div>
+        <div id="currency">
+            <h1>currency visualiser</h1>
+            <div class="inputgrpcurrency">
+                <input id="basecurrency" maxlength="3" value="USD" style="width: 5ch;">
+                <input id="targetcurrency" maxlength="3" value="EUR" style="width: 5ch;">
+                <input type="text" id="startdate" value="2010-01-01" style="width: 10ch;">
+                <input type="text" id="enddate" value="2020-12-31" style="width: 10ch;">
+                <button onclick="updateplot()">load</button>
+            </div>
+            <div id="currencyplot" style="width: 100%;"></div>
         </div>
     </div>
 </body>

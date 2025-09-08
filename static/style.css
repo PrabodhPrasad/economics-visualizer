@@ -206,11 +206,11 @@ p{
 }
 #container {
     display: flex;
-    width: 200vw;
+    width: 300vw;
     height: 100vh;
     transition: 0.5s;
 }
-#graph, #map{
+#graph, #map, #currency{
     width: 100vw;
     height: 100vh;
     overflow-y: auto;

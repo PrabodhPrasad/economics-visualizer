@@ -1,4 +1,4 @@
-async function loadCurrencyData(base="USD", target="EUR", start="2010-01-01", end="2020-12-31") {
+async function loadcurrencydata(base="USD", target="EUR", start="2010-01-01", end="2020-12-31") {
     const response=await fetch(`/currency/history?base=${base}&target=${target}&start=${start}&end=${end}`);
     const data=await response.json();
 
@@ -15,15 +15,12 @@ async function loadCurrencyData(base="USD", target="EUR", start="2010-01-01", en
         plot_bgcolor: "#fffcf2",
         paper_bgcolor: "#fffcf2",
     };
-
-    Plotly.newPlot('plot', [trace], layout);
+    Plotly.newPlot('currencyplot', [trace], layout);
 }
-
 function updateplot(){
     const base=document.getElementById("basecurrency").value.toUpperCase();
     const target=document.getElementById("targetcurrency").value.toUpperCase();
     const start=document.getElementById("startdate").value;
     const end=document.getElementById("enddate").value;
-
-    loadCurrencyData(base, target, start, end);
+    loadcurrencydata(base, target, start, end);
 }

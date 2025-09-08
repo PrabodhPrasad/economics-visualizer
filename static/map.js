@@ -67,7 +67,7 @@ async function drawmap(variable="gdp", year=2020) {
             document.getElementById("variableselect").value=selectedvariable;
             document.getElementById("countryinput").value=iso3;
             document.getElementById("endyear").value=parseInt(document.getElementById("yearinput").value);
-            toggle()
+            showview(0);
         })
     })
 }

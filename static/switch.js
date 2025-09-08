@@ -1,12 +1,13 @@
-let currentview='graph';
-
-function toggle() {
-    const container=document.getElementById('container');
-    if (currentview==='graph') {
-        container.style.transform='translateX(-100vw)';
-        currentview='map';
-    } else {
-        container.style.transform='translateX(0)';
-        currentview='graph';
+document.addEventListener("DOMContentLoaded", function () {
+    let currentindex=0;
+    const views=["graph", "map", "currency"];
+    const container=document.getElementById("container");
+    function showview(index){
+        currentindex=index;
+        container.style.transform=`translateX(-${index * 100}vw)`;
     }
-}
+    document.getElementById("rightarrow").addEventListener("click", ()=>{
+        currentindex=(currentindex+1)%views.length;
+        showview(currentindex);
+    });
+})
