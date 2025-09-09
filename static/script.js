@@ -38,8 +38,8 @@ window.onload=function (){
         };
         const endpoint=endpointmap[variable];
 
-        const response=await fetch(`https://economics-visualizer.onrender.com/${endpoint}?country=${country}&startyear=${startyear}&endyear=${endyear}`);
-        //const response=await fetch(`/${endpoint}?country=${country}&startyear=${startyear}&endyear=${endyear}`);
+        //const response=await fetch(`https://economics-visualizer.onrender.com/${endpoint}?country=${country}&startyear=${startyear}&endyear=${endyear}`);
+        const response=await fetch(`/${endpoint}?country=${country}&startyear=${startyear}&endyear=${endyear}`);
 
         const data=await response.json();
         
@@ -119,8 +119,8 @@ window.onload=function (){
 
         messages.push({role: "user", content: question})
 
-        //"/chat"
-        const response=await fetch("https://economics-visualizer.onrender.com/chat",{
+        //"https://economics-visualizer.onrender.com/chat"
+        const response=await fetch("/chat",{
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({messages})

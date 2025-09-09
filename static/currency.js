@@ -1,6 +1,7 @@
+let plotmade=false;
 async function loadcurrencydata(base="USD", target="EUR", start="2010-01-01", end="2020-12-31") {
-    const response=await fetch(`https://economics-visualizer.onrender.com/currency/history?base=${base}&target=${target}&start=${start}&end=${end}`);
-    //const response=await fetch(`/currency/history?base=${base}&target=${target}&start=${start}&end=${end}`);
+    //const response=await fetch(`https://economics-visualizer.onrender.com/currency/history?base=${base}&target=${target}&start=${start}&end=${end}`);
+    const response=await fetch(`/currency/history?base=${base}&target=${target}&start=${start}&end=${end}`);
     const data=await response.json();
 
     const trace={
@@ -16,7 +17,13 @@ async function loadcurrencydata(base="USD", target="EUR", start="2010-01-01", en
         plot_bgcolor: "#fffcf2",
         paper_bgcolor: "#fffcf2",
     };
-    Plotly.newPlot('currencyplot', [trace], layout);
+    if(!plotmade){
+        Plotly.newPlot('currencyplot', [trace], layout);
+        plotmade=true;
+    }
+    else{
+        Plotly.addTraces('currencyplot', trace);
+    }
 }
 function updateplot(){
     const base=document.getElementById("basecurrency").value.toUpperCase();
