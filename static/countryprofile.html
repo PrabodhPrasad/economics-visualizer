@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="/static/countryprofile.js?v=2"></script>
-    <link rel="stylesheet" href="/static/style.css?v=2">
+    <link rel="stylesheet" href="/static/style.css?v=3">
 </head>
 <body>
     <h1>country profiles</h1>
-    <input type="text" id="countryprofileinput">
-    <button onclick="loadprofile()">load</button>
+    <div class="profileinput">
+        <input type="text" id="countryprofileinput" maxlength="3">
+        <button onclick="loadprofile()">load</button>
+    </div>
     <div id="output"></div>
 </body>
 </html>

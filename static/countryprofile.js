@@ -19,12 +19,16 @@ async function loadprofile() {
     }
 
     output.innerHTML=`
-        <h2>${country.name.common} (${code})</h2>
-        <p><strong>region:</strong> ${country.region||"n/a"}</p>
-        <p><strong>population:</strong> ${country.population?.toLocaleString()||"n/a"}</p>
-        <p><strong>capital:</strong> ${country.capital?.[0]||"n/a"}</p>
-        <p><strong>currency:</strong> ${currencyname} (${currencykey})</p>
-        <p><strong>gdp per capita:</strong> ${gdppercap}</p>
-        <img src="${country.flags?.svg}"/>
+        <div class="profilecontainer">
+            <div class="profiletext">
+                <h2>${country.name.common} (${code})</h2>
+                <p><strong>region:</strong> ${country.region||"n/a"}</p>
+                <p><strong>population:</strong> ${country.population?.toLocaleString()||"n/a"}</p>
+                <p><strong>capital:</strong> ${country.capital?.[0]||"n/a"}</p>
+                <p><strong>currency:</strong> ${currencyname} (${currencykey})</p>
+                <p><strong>gdp per capita:</strong> ${gdppercap}</p>
+            </div>
+            <img src="${country.flags?.svg}"/>
+        </div>
     `;
 }
