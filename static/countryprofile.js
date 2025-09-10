@@ -3,8 +3,8 @@ async function loadprofile() {
     const output=document.getElementById("output");
 
     const [countryres, gdpres]=await Promise.all([
-            fetch(`https://restcountries.com/v3.1/alpha/${code}`),
-            fetch(`https://api.worldbank.org/v2/country/${code}/indicator/NY.GDP.PCAP.CD?format=json&per_page=1`)
+        fetch(`https://restcountries.com/v3.1/alpha/${code}`),
+        fetch(`https://api.worldbank.org/v2/country/${code}/indicator/NY.GDP.PCAP.CD?format=json&per_page=1`)
     ]);
     const countrydata=await countryres.json();
     const gdpdata=await gdpres.json();

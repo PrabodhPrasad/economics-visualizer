@@ -212,7 +212,7 @@ p{
 }
 #container{
     display: flex;
-    width: 300vw;
+    width: 400vw;
     height: 100vh;
     transition: 0.5s;
 }
