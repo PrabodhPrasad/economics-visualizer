@@ -9,6 +9,7 @@
     <script src="/static/switch.js?v=2"></script>
     <script src="/static/map.js?v=5" defer></script>
     <script src="/static/currency.js?v=2"></script>
+    <script src="/static/countryprofile.js?v=2"></script>
     <link rel="stylesheet" href="/static/style.css?v=2">
 </head>
 <body>
@@ -64,6 +65,14 @@
                 <button onclick="updateplot()">load</button>
             </div>
             <div id="currencyplot" style="width: 100%;"></div>
+        </div>
+        <div id="profile">
+            <h1>country profiles</h1>
+            <div class="profileinput">
+                <input type="text" id="countryprofileinput" maxlength="3">
+                <button onclick="loadprofile()">load</button>
+            </div>
+            <div id="output"></div>
         </div>
     </div>
 </body>

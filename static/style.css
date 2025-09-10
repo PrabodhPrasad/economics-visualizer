@@ -210,20 +210,20 @@ p{
     color: #252422;
     margin: 20px;
 }
-#container {
+#container{
     display: flex;
     width: 300vw;
     height: 100vh;
     transition: 0.5s;
 }
-#graph, #map, #currency{
+#graph, #map, #currency, #profile{
     width: 100vw;
     height: 100vh;
     overflow-y: auto;
     box-sizing: border-box;
     flex-shrink: 0;
 }
-#toolbar {
+#toolbar{
     position: fixed;
     z-index: 1000;
     top: 20px;
