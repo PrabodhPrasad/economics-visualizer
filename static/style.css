@@ -14,6 +14,7 @@ body, html{
 h1{
     font-size: 70px;
     margin: 20px;
+    transition: 0.25s;
 }
 h2{
     font-size: 30px;
@@ -337,4 +338,10 @@ p{
 img{
     height: 50vh;
     margin: 20px;
+    transition: 0.25s;
+    border-radius: 5px;
+}
+img:hover{
+    transform: translate(0px, -5px);
+    transition: 0.25s;
 }
