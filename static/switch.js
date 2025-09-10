@@ -10,4 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
         currentindex=(currentindex+1)%views.length;
         showview(currentindex);
     });
+    document.getElementById("leftarrow").addEventListener("click", ()=>{
+        currentindex=(currentindex-1+views.length)%views.length;
+        showview(currentindex);
+    });
 })
