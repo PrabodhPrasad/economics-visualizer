@@ -15,3 +15,25 @@ document.addEventListener("DOMContentLoaded", function () {
         showview(currentindex);
     });
 })
+
+window.openinapp=function(targetapp){
+    const {iso3, variable, year}=window.clickedcountry||{};
+
+    if (!iso3) return;
+
+    if (targetapp==="graph") {
+        document.getElementById("countryinput").value=iso3;
+        document.getElementById("variableselect").value=variable;
+        document.getElementById("endyear").value=year;
+        showview(0);
+    } else if (targetapp==="currency") {
+        document.getElementById("basecurrency").value=iso3;
+        showview(2);
+    } else if (targetapp==="profile") {
+        document.getElementById("countryprofileinput").value=iso3;
+        showview(3);
+        loadprofile();
+    }
+
+    document.getElementById("mappopup").style.display="none";
+}

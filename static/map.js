@@ -64,10 +64,16 @@ async function drawmap(variable="gdp", year=2020) {
             const point=eventdata.points[0];
             const iso3=point.location;
             const selectedvariable=document.getElementById("variable").value;
-            document.getElementById("variableselect").value=selectedvariable;
-            document.getElementById("countryinput").value=iso3;
-            document.getElementById("endyear").value=parseInt(document.getElementById("yearinput").value);
-            showview(0);
+            const selectedyear=parseInt(document.getElementById("yearinput").value);
+            window.clickedcountry={
+                iso3,
+                variable: selectedvariable,
+                year: selectedyear
+            };
+            const popup=document.getElementById("mappopup");
+            popup.style.display="block";
+            popup.style.top = `${eventdata.event.clientY}px`;
+            popup.style.left = `${eventdata.event.clientX}px`;
         })
     })
 }

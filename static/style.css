@@ -345,3 +345,7 @@ img:hover{
     transform: translate(0px, -5px);
     transition: 0.25s;
 }
+#mappopup{
+    display: none;
+    position: absolute;
+}

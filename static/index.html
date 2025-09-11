@@ -6,11 +6,11 @@
     <title>economics-visualiser</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="/static/script.js?v=2"></script>
-    <script src="/static/switch.js?v=3"></script>
-    <script src="/static/map.js?v=2" defer></script>
+    <script src="/static/switch.js?v=9"></script>
+    <script src="/static/map.js?v=8" defer></script>
     <script src="/static/currency.js?v=2"></script>
     <script src="/static/countryprofile.js?v=2"></script>
-    <link rel="stylesheet" href="/static/style.css?v=5">
+    <link rel="stylesheet" href="/static/style.css?v=9">
 </head>
 <body>
     <div id="toolbar">
@@ -70,11 +70,16 @@
         <div id="profile">
             <h1>country profiles</h1>
             <div class="profileinput">
-                <input type="text" id="countryprofileinput" maxlength="3">
+                <input type="text" id="countryprofileinput" maxlength="3" value="SUD">
                 <button onclick="loadprofile()">load</button>
             </div>
             <div id="output"></div>
         </div>
+    </div>
+    <div id="mappopup">
+        <button onclick="openinapp('graph')">graph</button>
+        <button onclick="openinapp('currency')">currency</button>
+        <button onclick="openinapp('profile')">profile</button>
     </div>
 </body>
 </html>

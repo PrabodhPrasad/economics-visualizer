@@ -11,7 +11,7 @@ async function loadprofile() {
 
     const country=countrydata[0];
     const currencykey=country.currencies?Object.keys(country.currencies)[0]:"n/a";
-    const currencyname=currencykey!=="n/a" ? country.currencies[currencykey].name:"n/a";
+    const currencyname=currencykey!=="n/a"?country.currencies[currencykey].name:"n/a";
 
     let gdppercap="n/a";
     if (Array.isArray(gdpdata) && gdpdata[1]?.length>0 && gdpdata[1][0].value!==null) {
