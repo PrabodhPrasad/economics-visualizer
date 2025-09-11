@@ -71,7 +71,7 @@ async function drawmap(variable="gdp", year=2020) {
                 year: selectedyear
             };
             const popup=document.getElementById("mappopup");
-            popup.style.display="block";
+            popup.style.display="flex";
             popup.style.top = `${eventdata.event.clientY}px`;
             popup.style.left = `${eventdata.event.clientX}px`;
         })

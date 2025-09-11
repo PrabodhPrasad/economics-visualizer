@@ -14,6 +14,14 @@ document.addEventListener("DOMContentLoaded", function () {
         currentindex=(currentindex-1+views.length)%views.length;
         showview(currentindex);
     });
+    document.addEventListener("click", function (event) {
+        const popup = document.getElementById("mappopup");
+        if (popup.style.display!=="flex") return;
+        if (!popup.contains(event.target)) {
+            popup.style.display="none";
+        }
+    });
+
 })
 
 window.openinapp=async function(targetapp){
@@ -27,7 +35,7 @@ window.openinapp=async function(targetapp){
     } else if (targetapp==="currency") {
         const currencycode=await getcurrencycode(iso3);
         if (currencycode) {
-            document.getElementById("basecurrency").value=currencycode;
+            document.getElementById("targetcurrency").value=currencycode;
         }
         showview(2);
     } else if (targetapp==="profile") {

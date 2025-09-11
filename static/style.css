@@ -348,8 +348,31 @@ img:hover{
 #mappopup{
     display: flex;
     flex-direction: column;
-    gap: 8px;   
-    display: none;
     position: absolute;
     z-index: 1000;
+    border-radius: 5px;
+    border: #ccc5b9 2px solid;
+    overflow: hidden;
+}
+#mappopup button{
+    background-color: #fffcf2;
+    border: 2px solid #ffffff00;
+    border-bottom: #ccc5b9 2px solid;
+    font-size: 15px;
+    outline: none;
+    transition: 0.25s;
+    padding: 5px 10px;
+}
+#mappopup button:last-child {
+    border-bottom: 2px solid #ffffff00;
+}
+#mappopup button:hover{
+    border: #403d39 2px solid;
+    background-color: #403d39;
+    color: #ccc5b9;
+}
+#mappopup button:active{
+    border: #eb5e28 2px solid;
+    background-color: #fffcf2;
+    color: #252422;
 }
