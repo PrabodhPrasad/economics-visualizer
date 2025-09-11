@@ -16,10 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 })
 
-window.openinapp=function(targetapp){
+window.openinapp=async function(targetapp){
     const {iso3, variable, year}=window.clickedcountry||{};
-
-    if (!iso3) return;
 
     if (targetapp==="graph") {
         document.getElementById("countryinput").value=iso3;
@@ -27,7 +25,10 @@ window.openinapp=function(targetapp){
         document.getElementById("endyear").value=year;
         showview(0);
     } else if (targetapp==="currency") {
-        document.getElementById("basecurrency").value=iso3;
+        const currencycode=await getcurrencycode(iso3);
+        if (currencycode) {
+            document.getElementById("basecurrency").value=currencycode;
+        }
         showview(2);
     } else if (targetapp==="profile") {
         document.getElementById("countryprofileinput").value=iso3;
@@ -36,4 +37,12 @@ window.openinapp=function(targetapp){
     }
 
     document.getElementById("mappopup").style.display="none";
+}
+async function getcurrencycode(iso3) {
+    const response=await fetch(`https://restcountries.com/v3.1/alpha/${iso3}`);
+    const data=await response.json();
+
+    const currencies=data[0].currencies;
+    const currencycode=Object.keys(currencies)[0];
+    return currencycode;
 }
