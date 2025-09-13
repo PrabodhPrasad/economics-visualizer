@@ -7,6 +7,7 @@ let messages_profile=[
 ];
 
 async function loadprofile() {
+    document.getElementById("profileresponse").innerText="";
     const code=document.getElementById("countryprofileinput").value.trim();
     const output=document.getElementById("output");
 
@@ -79,7 +80,7 @@ async function askprofile() {
 
     const data=await response.json();
     messages_profile.push({ role: "assistant", content: data.response });
-    responsebox.innerText = data.response;
+    responsebox.innerText=data.response;
     questioninput.value="";
 }
 
