@@ -9,9 +9,7 @@
     <script src="/static/switch.js?v=15"></script>
     <script src="/static/map.js?v=8" defer></script>
     <script src="/static/currency.js?v=2"></script>
-    <script src="/static/countryprofile.js?v=2"></script>
     <link rel="stylesheet" href="/static/style.css?v=7">
-    <link rel="shortcut icon" href="/static/ev.ico" type="image/x-icon">
 </head>
 <body>
     <div id="toolbar">
@@ -75,6 +73,13 @@
                 <button onclick="loadprofile()">load</button>
             </div>
             <div id="output"></div>
+            <div id="profileask" style="display: none;">
+                <div class="askie">
+                    <textarea id="profilequestion" cols="100"></textarea>
+                    <button onclick="askprofile()">ask</button>
+                </div>
+                <p id="profileresponse"></p>
+            </div>
         </div>
     </div>
     <div id="mappopup">
@@ -82,5 +87,6 @@
         <button onclick="openinapp('currency')">currency</button>
         <button onclick="openinapp('profile')">profile</button>
     </div>
+    <script src="/static/countryprofile.js?v=26"></script>
 </body>
 </html>
